@@ -27,7 +27,7 @@ public class UserDTO {
 
     //private String bornDate;
     //private String adress;
-    //private List<account>;
+    //private List<AccountDTO>;
 
 
 }
