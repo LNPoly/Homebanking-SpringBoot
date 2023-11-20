@@ -14,8 +14,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long account_id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "tipe_account") // equivalente al atributo "nombre" que pide la consigna.
+    private String tipeAccount;
 
     @Column(name = "cbu")
     private Long cbu;
@@ -26,9 +26,12 @@ public class Account {
     @Column(name = "amount")
     private int  amount;
 
-    //@Column(name = "user")
+    @Column(name = "userAccount") // equivalente al atributo "dueño" que pide la consigna.
+    private String userAccount;
+
+
     //@OneToOne
-    //@JoinColumn(name = "id_account",referencedColumnName = "id")
+    //@JoinColumn(name = "id_account",referencedColumnName = "account_id")
     //private User user;
 
 }
