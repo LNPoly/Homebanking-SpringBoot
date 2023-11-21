@@ -1,9 +1,12 @@
 package com.ar.cac.homebanking.models;
 
-
+import com.ar.cac.homebanking.models.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
@@ -14,21 +17,21 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long account_id;
 
-    @Column(name = "tipe_account") // equivalente al atributo "nombre" que pide la consigna.
-    private String tipeAccount;
+    @Column(name = "type_account")
+    private AccountType tipeAccount;
 
     @Column(name = "cbu")
-    private Long cbu;
+    private String cbu;
 
     @Column(name = "alias")
     private String alias;
 
     @Column(name = "amount")
-    private int  amount;
+    private BigDecimal amount;
 
-    @Column(name = "userAccount") // equivalente al atributo "dueño" que pide la consigna.
-    private String userAccount;
-
+    // TODO: faltan incorporar relaciones entre users/accounts
+    //@Column(name = "userAccount")
+    //private User userAccount;
 
     //@OneToOne
     //@JoinColumn(name = "id_account",referencedColumnName = "account_id")
