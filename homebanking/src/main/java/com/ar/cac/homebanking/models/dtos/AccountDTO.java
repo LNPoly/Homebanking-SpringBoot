@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AccountDTO {
 
-    private Long account_id;
+    private Long accountId;
 
-    private AccountType tipeAccount;
+    private AccountType typeAccount;
 
     private String cbu;
 

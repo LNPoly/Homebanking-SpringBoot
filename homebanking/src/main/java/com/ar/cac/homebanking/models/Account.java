@@ -15,10 +15,10 @@ import java.util.List;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long account_id;
+    private Long accountId;
 
-    @Column(name = "type_account")
-    private AccountType tipeAccount;
+    @Column(name = "type")
+    private AccountType TypeAccount;
 
     @Column(name = "cbu")
     private String cbu;
