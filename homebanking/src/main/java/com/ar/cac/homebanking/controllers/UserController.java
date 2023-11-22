@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
 
     // Definir la url de origen para cada solicitud
@@ -26,7 +26,7 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers(){
         List<UserDTO> lista = service.getUsers();
         return ResponseEntity.status(HttpStatus.OK).body(lista);
@@ -37,18 +37,18 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(service.getUsersById(id));
 
     }
-    @PostMapping(value = "/users")
+    @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(user));
     }
-    @PutMapping(value = "/{id}")
-    public void updateAllUser(@PathVariable Long id){
-
+    @PutMapping(value="/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO user){
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
     }
+
     @PatchMapping(value = "/{id}")
-    public void updateUser(@PathVariable Long id){
+    public void updateUser(@PathVariable Long id){ }
 
-    }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
             return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
