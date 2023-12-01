@@ -4,6 +4,7 @@ import com.ar.cac.homebanking.exceptions.UserNotExistsException;
 import com.ar.cac.homebanking.mappers.UserMapper;
 import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
+import com.ar.cac.homebanking.models.dtos.UserGetDTO;
 import com.ar.cac.homebanking.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,22 +22,27 @@ public class UserService {
         this.repository = repository;
     }
 
-    public List<UserDTO> getUsers(){
+    public List<UserGetDTO> getUsers(){
         List<User> users = repository.findAll();
-        List<UserDTO> usersDtos = users.stream()
-                .map(UserMapper::userToDto)
+        List<UserGetDTO> usersDtos = users.stream()
+                .map(UserMapper::userToGetDto)
                 .collect(Collectors.toList());
         return usersDtos;
     }
 
     public UserDTO createUser(UserDTO userDTO){
+        PasswordService passwordService = new PasswordService();
+
+        String contrasenaEncriptada = passwordService.encriptarPassword(userDTO.getPassword());
+        userDTO.setPassword(contrasenaEncriptada);
+
         User user = repository.save(UserMapper.dtoToUser(userDTO));
         return UserMapper.userToDto(user);
     }
 
-    public UserDTO getUsersById(Long id) {
+    public UserGetDTO getUsersById(Long id) {
         User entity = repository.findById(id).get();
-        return UserMapper.userToDto(entity);
+        return UserMapper.userToGetDto(entity);
     }
     public String deleteUser(Long id){
         if(repository.existsById(id)) {

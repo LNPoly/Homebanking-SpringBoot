@@ -2,6 +2,7 @@ package com.ar.cac.homebanking.mappers;
 
 import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
+import com.ar.cac.homebanking.models.dtos.UserGetDTO;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -26,6 +27,17 @@ public class UserMapper {
         dto.setDni(user.getDni());
         dto.setEmail(user.getEmail());
         dto.setPassword(user.getPassword());
+        return dto;
+
+    }
+
+    public static UserGetDTO userToGetDto(User user){
+        UserGetDTO dto = new UserGetDTO();
+        dto.setId(user.getId());
+        dto.setName(user.getName());
+        dto.setSurname(user.getSurname());
+        dto.setDni(user.getDni());
+        dto.setEmail(user.getEmail());
         return dto;
 
     }

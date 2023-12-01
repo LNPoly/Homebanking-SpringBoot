@@ -2,6 +2,7 @@ package com.ar.cac.homebanking.controllers;
 
 import com.ar.cac.homebanking.exceptions.UserNotExistsException;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
+import com.ar.cac.homebanking.models.dtos.UserGetDTO;
 import com.ar.cac.homebanking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,13 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getUsers(){
-        List<UserDTO> lista = service.getUsers();
+    public ResponseEntity<List<UserGetDTO>> getUsers(){
+        List<UserGetDTO> lista = service.getUsers();
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
+    public ResponseEntity<UserGetDTO> getUserById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.getUsersById(id));
 
     }
