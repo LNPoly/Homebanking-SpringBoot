@@ -2,7 +2,9 @@ package com.ar.cac.homebanking.models;
 
 import com.ar.cac.homebanking.models.enums.AccountType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -12,6 +14,8 @@ import java.util.List;
 @Table(name = "accounts")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +34,11 @@ public class Account {
     private BigDecimal amount;
 
     @ManyToOne
+    @JoinColumn(name="id", referencedColumnName="id")
     private User userAccount;
+
+    @OneToMany(mappedBy = "originAccount")
+    private List<Transfer> transfersList;
 
     //@OneToMany(mappedBy = "Account", cascade = CascadeType.ALL, orphanRemoval = true)
     //private List<Transfer> listTransfers;
