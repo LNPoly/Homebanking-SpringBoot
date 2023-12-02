@@ -1,6 +1,8 @@
 package com.ar.cac.homebanking.models.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.ar.cac.homebanking.models.Account;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +28,11 @@ public class UserDTO {
 
     private String dni;
 
-    //private String bornDate;
-    //private String adress;
-    //private List<AccountDTO>;
+    private String bornDate;
+
+    private String address;
+
+    private List<Account> accountList;
 
 
 }

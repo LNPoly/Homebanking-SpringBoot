@@ -17,5 +17,4 @@ public class PasswordService {
     public boolean verificarPassword(String passwordIngresada, String passwordEncriptada) {
         return passwordEncoder.matches(passwordIngresada, passwordEncriptada);
     }
-
 }
