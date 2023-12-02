@@ -20,7 +20,7 @@ public class Account {
     @Column(name = "type")
     private AccountType TypeAccount;
 
-    @Column(name = "cbu")
+    @Column(name = "cbu", unique = true)
     private String cbu;
 
     @Column(name = "alias")
@@ -29,12 +29,10 @@ public class Account {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    // TODO: faltan incorporar relaciones entre users/accounts
-    //@Column(name = "userAccount")
-    //private User userAccount;
+    @ManyToOne
+    private User userAccount;
 
-    //@OneToOne
-    //@JoinColumn(name = "id_account",referencedColumnName = "account_id")
-    //private User user;
+    //@OneToMany(mappedBy = "Account", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<Transfer> listTransfers;
 
 }
