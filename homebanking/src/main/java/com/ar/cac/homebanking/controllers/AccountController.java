@@ -5,6 +5,8 @@ import com.ar.cac.homebanking.models.dtos.AccountDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -42,6 +44,16 @@ public class AccountController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteAccount(id));
+    }
+
+    @PutMapping("/deposit/{id}")
+    public ResponseEntity<AccountDTO> depositAccount(@PathVariable Long id, @RequestBody BigDecimal amount){
+        return ResponseEntity.status(HttpStatus.OK).body(service.depositAccount(id,amount));
+    }
+
+    @PutMapping("/extract/{id}")
+    public ResponseEntity<AccountDTO> extractAccount(@PathVariable Long id, @RequestBody BigDecimal amount){
+        return ResponseEntity.status(HttpStatus.OK).body(service.extractAccount(id,amount));
     }
 
 }

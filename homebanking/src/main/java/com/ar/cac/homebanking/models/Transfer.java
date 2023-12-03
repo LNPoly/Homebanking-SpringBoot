@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -24,12 +25,14 @@ public class Transfer {
     private BigDecimal transferAmount;
 
     @ManyToOne
-    @JoinColumn(name="accountId", referencedColumnName="id")
-    private Long originAccount;
+    @JoinColumn(name="accountOriginId", referencedColumnName="accountId")
+    private Account originAccount;
 
-    private Long targetAccount;
+    @ManyToOne
+    @JoinColumn(name="accountTargetId", referencedColumnName = "accountId")
+    private Account targetAccount;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
 }

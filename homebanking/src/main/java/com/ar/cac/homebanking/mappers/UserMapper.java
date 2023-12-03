@@ -14,6 +14,9 @@ public class UserMapper {
         user.setDni(dto.getDni());
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
+        user.setBornDate(dto.getBornDate());
+        user.setAddress(dto.getAddress());
+        user.setAccountList(dto.getAccountList());
         return user;
 
     }
@@ -26,6 +29,9 @@ public class UserMapper {
         dto.setDni(user.getDni());
         dto.setEmail(user.getEmail());
         dto.setPassword(user.getPassword());
+        dto.setBornDate(user.getBornDate());
+        dto.setAddress(user.getAddress());
+        dto.setAccountList(user.getAccountList());
         return dto;
 
     }

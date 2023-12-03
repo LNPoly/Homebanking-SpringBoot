@@ -4,6 +4,7 @@ import com.ar.cac.homebanking.models.Account;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -17,9 +18,9 @@ public class TransferDTO {
 
     private BigDecimal transferAmount;
 
-    private Long originAccount;
+    private Account originAccount;
 
-    private Long targetAccount;
+    private Account targetAccount;
 
-    private Date date;
+    private LocalDate date;
 }

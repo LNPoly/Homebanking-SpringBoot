@@ -30,6 +30,11 @@ public class UserService {
     }
 
     public UserDTO createUser(UserDTO userDTO){
+        PasswordService passwordService = new PasswordService();
+
+        String contrasenaEncriptada = passwordService.encriptarPassword(userDTO.getPassword());
+        userDTO.setPassword(contrasenaEncriptada);
+
         User user = repository.save(UserMapper.dtoToUser(userDTO));
         return UserMapper.userToDto(user);
     }
@@ -78,5 +83,32 @@ public class UserService {
             return UserMapper.userToDto(userModified);
         }
         return null;
+    }
+
+    public UserDTO restorePassword(Long id, String password) {
+
+        User entity = repository.findById(id).get();
+
+        // String contraBBDD =  entity.getPassword();
+        // System.out.println("Contrasena de la BBDD: " + contraBBDD);
+
+        PasswordService passwordService = new PasswordService();
+
+        String contrasenaEncriptada = passwordService.encriptarPassword(password);
+        entity.setPassword(contrasenaEncriptada);
+
+        User userModified = repository.save(entity);
+        /*
+
+         String contraModificada =userModified.getPassword();
+         System.out.println("Contrasena modificada: " + contraModificada);
+
+        if(contraBBDD.equals(contraModificada)){
+            System.out.println("Son iguales");
+        } else {
+            System.out.println("No son iguales");
+        } */
+        return UserMapper.userToDto(userModified);
+
     }
 }

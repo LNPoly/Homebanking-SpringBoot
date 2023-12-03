@@ -1,5 +1,6 @@
 package com.ar.cac.homebanking.services;
 
+import com.ar.cac.homebanking.exceptions.AccountNotFoundException;
 import com.ar.cac.homebanking.exceptions.UserNotExistsException;
 import com.ar.cac.homebanking.mappers.AccountMapper;
 import com.ar.cac.homebanking.mappers.UserMapper;
@@ -140,4 +141,32 @@ public class AccountService {
         }
     }
 
+    public AccountDTO depositAccount(Long id, BigDecimal amount) {
+
+        Account entity = repository.findById(id).get();
+
+        if(amount.compareTo(BigDecimal.ZERO)>0) {
+            entity.setAmount(entity.getAmount().add(amount));
+            Account account = repository.save(entity);
+
+            return AccountMapper.accountToDto(account);
+        } else {
+            throw  new AccountNotFoundException("Saldo a depositar invalido.");
+        }
+    }
+
+    public AccountDTO extractAccount(Long id, BigDecimal amount) {
+
+        Account entity = repository.findById(id).get();
+
+
+        if(BigDecimal.ZERO.compareTo(entity.getAmount().subtract(amount))>0) {
+            entity.setAmount(entity.getAmount().subtract(amount));
+            Account account = repository.save(entity);
+
+            return AccountMapper.accountToDto(account);
+        } else {
+            throw  new AccountNotFoundException("Saldo a extraer insuficiente.");
+        }
+    }
 }
