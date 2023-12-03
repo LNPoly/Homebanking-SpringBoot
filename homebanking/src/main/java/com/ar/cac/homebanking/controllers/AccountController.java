@@ -47,13 +47,13 @@ public class AccountController {
     }
 
     @PutMapping("/deposit/{id}")
-    public ResponseEntity<AccountDTO> depositAccount(@PathVariable Long id, @RequestBody BigDecimal amount){
-        return ResponseEntity.status(HttpStatus.OK).body(service.depositAccount(id,amount));
+    public ResponseEntity<AccountDTO> depositAccount(@PathVariable Long id, @RequestBody AccountDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).body(service.depositAccount(id,dto));
     }
 
     @PutMapping("/extract/{id}")
-    public ResponseEntity<AccountDTO> extractAccount(@PathVariable Long id, @RequestBody BigDecimal amount){
-        return ResponseEntity.status(HttpStatus.OK).body(service.extractAccount(id,amount));
+    public ResponseEntity<AccountDTO> extractAccount(@PathVariable Long id, @RequestBody AccountDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).body(service.extractAccount(id,dto));
     }
 
 }

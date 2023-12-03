@@ -27,7 +27,6 @@ public class AccountDTO {
 
     private String alias;
 
-    @JsonFormat
     private BigDecimal amount;
 
     //private LocalDate creationDate;
