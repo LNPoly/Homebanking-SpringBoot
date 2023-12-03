@@ -141,32 +141,32 @@ public class AccountService {
         }
     }
 
-    public AccountDTO depositAccount(Long id, BigDecimal amount) {
+    public AccountDTO depositAccount(Long id, AccountDTO dto) {
 
         Account entity = repository.findById(id).get();
 
-        if(amount.compareTo(BigDecimal.ZERO)>0) {
-            entity.setAmount(entity.getAmount().add(amount));
+        if(dto.getAmount().compareTo(BigDecimal.ZERO)>0) {
+            entity.setAmount(entity.getAmount().add(dto.getAmount()));
             Account account = repository.save(entity);
 
             return AccountMapper.accountToDto(account);
         } else {
-            throw  new AccountNotFoundException("Saldo a depositar invalido.");
+            throw  new AccountNotFoundException("Amount to be deposited invalid.");
         }
     }
 
-    public AccountDTO extractAccount(Long id, BigDecimal amount) {
+    public AccountDTO extractAccount(Long id, AccountDTO dto) {
 
         Account entity = repository.findById(id).get();
 
 
-        if(BigDecimal.ZERO.compareTo(entity.getAmount().subtract(amount))>0) {
-            entity.setAmount(entity.getAmount().subtract(amount));
+        if(entity.getAmount().subtract(dto.getAmount()).compareTo(BigDecimal.ZERO)>0) {
+            entity.setAmount(entity.getAmount().subtract(dto.getAmount()));
             Account account = repository.save(entity);
 
             return AccountMapper.accountToDto(account);
         } else {
-            throw  new AccountNotFoundException("Saldo a extraer insuficiente.");
+                throw  new AccountNotFoundException("Amount to be drawn insufficient");
         }
     }
 }
