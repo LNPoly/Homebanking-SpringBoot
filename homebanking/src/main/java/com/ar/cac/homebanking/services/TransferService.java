@@ -12,6 +12,7 @@ import com.ar.cac.homebanking.repositories.TransferRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,9 +61,9 @@ public class TransferService {
     @Transactional
     public TransferDTO performTransfer(TransferDTO dto) {
         // Comprobar si las cuentas de origen y destino existen
-        Account originAccount = accountRepository.findById(dto.getOriginAccount())
+        Account originAccount = accountRepository.findById(dto.getOriginAccount().getAccountId())
                 .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getOriginAccount()));
-        Account destinationAccount = accountRepository.findById(dto.getTargetAccount())
+        Account destinationAccount = accountRepository.findById(dto.getTargetAccount().getAccountId())
                 .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getTargetAccount()));
 
         // Comprobar si la cuenta de origen tiene fondos suficientes
@@ -81,11 +82,11 @@ public class TransferService {
         // Crear la transferencia y guardarla en la base de datos
         Transfer transfer = new Transfer();
         // Creamos un objeto del tipo Date para obtener la fecha actual
-        Date date = new Date();
+        LocalDate date = LocalDate.now();
         // Seteamos el objeto fecha actual en el transferDto
         transfer.setDate(date);
-        transfer.setOriginAccount(originAccount.getAccountId());
-        transfer.setTargetAccount(destinationAccount.getAccountId());
+        transfer.setOriginAccount(originAccount);
+        transfer.setTargetAccount(destinationAccount);
         transfer.setTransferAmount(dto.getTransferAmount());
         transfer = repository.save(transfer);
 

@@ -3,6 +3,7 @@ package com.ar.cac.homebanking.models.dtos;
 
 import com.ar.cac.homebanking.models.Account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class UserDTO {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private String name;

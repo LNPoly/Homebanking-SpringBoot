@@ -4,7 +4,6 @@ import com.ar.cac.homebanking.exceptions.UserNotExistsException;
 import com.ar.cac.homebanking.mappers.UserMapper;
 import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
-import com.ar.cac.homebanking.models.dtos.UserGetDTO;
 import com.ar.cac.homebanking.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +21,10 @@ public class UserService {
         this.repository = repository;
     }
 
-    public List<UserGetDTO> getUsers(){
+    public List<UserDTO> getUsers(){
         List<User> users = repository.findAll();
-        List<UserGetDTO> usersDtos = users.stream()
-                .map(UserMapper::userToGetDto)
+        List<UserDTO> usersDtos = users.stream()
+                .map(UserMapper::userToDto)
                 .collect(Collectors.toList());
         return usersDtos;
     }
@@ -40,9 +39,9 @@ public class UserService {
         return UserMapper.userToDto(user);
     }
 
-    public UserGetDTO getUsersById(Long id) {
+    public UserDTO getUsersById(Long id) {
         User entity = repository.findById(id).get();
-        return UserMapper.userToGetDto(entity);
+        return UserMapper.userToDto(entity);
     }
     public String deleteUser(Long id){
         if(repository.existsById(id)) {
@@ -84,5 +83,32 @@ public class UserService {
             return UserMapper.userToDto(userModified);
         }
         return null;
+    }
+
+    public UserDTO restorePassword(Long id, String password) {
+
+        User entity = repository.findById(id).get();
+
+        // String contraBBDD =  entity.getPassword();
+        // System.out.println("Contrasena de la BBDD: " + contraBBDD);
+
+        PasswordService passwordService = new PasswordService();
+
+        String contrasenaEncriptada = passwordService.encriptarPassword(password);
+        entity.setPassword(contrasenaEncriptada);
+
+        User userModified = repository.save(entity);
+        /*
+
+         String contraModificada =userModified.getPassword();
+         System.out.println("Contrasena modificada: " + contraModificada);
+
+        if(contraBBDD.equals(contraModificada)){
+            System.out.println("Son iguales");
+        } else {
+            System.out.println("No son iguales");
+        } */
+        return UserMapper.userToDto(userModified);
+
     }
 }
