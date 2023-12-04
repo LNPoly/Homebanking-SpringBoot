@@ -17,11 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDTO {
 
-    private Long id; // se muestra solo en el postman
+    private Long id;
 
     private String email;
 
-    @JsonIgnore
     private String password;
 
     private String name;

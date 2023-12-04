@@ -14,8 +14,9 @@ public class AccountMapper {
         dto.setCbu(account.getCbu());
         dto.setAlias(account.getAlias());
         dto.setAmount(account.getAmount());
-        //Cuando haya las relaciones corregir eso
-        //dto.setUserAccount(account.getUserAccount());
+//        dto.setUserAccount(account.getUserAccount());
+//        dto.setTransfersList(account.getTransfersList());
+
         return dto;
     }
     public static Account dtoToAccount(AccountDTO dto){
@@ -24,8 +25,7 @@ public class AccountMapper {
         account.setCbu(dto.getCbu());
         account.setAlias(dto.getAlias());
         account.setAmount(dto.getAmount());
-        //Cuando haya las relaciones corregir eso
-        //account.setUserAccount(dto.getUserAccount());
+        account.setUserAccount(dto.getUserAccount());
         return account;
     }
 

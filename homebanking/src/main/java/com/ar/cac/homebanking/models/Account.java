@@ -34,7 +34,7 @@ public class Account {
     private BigDecimal amount;
 
     @ManyToOne
-    @JoinColumn(name="id", referencedColumnName="id")
+    @JoinColumn(name="id_Usuario", referencedColumnName="id")
     private User userAccount;
 
     @OneToMany(mappedBy = "originAccount")

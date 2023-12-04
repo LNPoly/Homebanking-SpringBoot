@@ -11,53 +11,60 @@ import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.models.enums.AccountType;
 import com.ar.cac.homebanking.models.enums.Palabras;
 import com.ar.cac.homebanking.repositories.AccountRepository;
+import com.ar.cac.homebanking.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
+
     @Autowired
-    private final AccountRepository repository;
-    public AccountService(AccountRepository repository){
-        this.repository=repository;
-    }
+    private  AccountRepository accountRepository;
+    @Autowired
+    private  UserRepository userRepository;
+
     public List<AccountDTO> getAccounts(){
-        List<Account> accounts = repository.findAll();
+        List<Account> accounts = accountRepository.findAll();
         return accounts.stream()
                 .map(AccountMapper::accountToDto)
                 .collect(Collectors.toList());
     }
     public AccountDTO createAccount(AccountDTO dto){
-        dto.setTypeAccount(AccountType.PESOS_SAVING_BANK);
-        dto.setAmount(BigDecimal.ZERO);
-        // AGREGAMOS EL CBU
+
+        User user = userRepository.findById(dto.getUserAccount().getId()).orElse(null);
+
+        dto.setTypeAccount(dto.getTypeAccount());
         dto.setCbu(generarCBU());
-        // AGREGAMOS EL ALIAS
         dto.setAlias(generarAlias());
-        Account newAccount = repository.save(AccountMapper.dtoToAccount(dto));
+        dto.setAmount(BigDecimal.ZERO);
+        dto.setUserAccount(user);
+        dto.setTransfersList(new ArrayList<>());
+
+        Account newAccount = accountRepository.save(AccountMapper.dtoToAccount(dto));
         return AccountMapper.accountToDto(newAccount);
     }
     public AccountDTO getAccountById(Long accountId){
-        Account entity = repository.findById(accountId).get();
+        Account entity = accountRepository.findById(accountId).get();
         return AccountMapper.accountToDto(entity);
     }
     public String deleteAccount(Long accountId){
-        if(repository.existsById(accountId)) {
-            repository.deleteById(accountId);
-            return "Cuenta con id:" + accountId + "ha sido eliminada.";
+        if(accountRepository.existsById(accountId)) {
+            accountRepository.deleteById(accountId);
+            return "Cuenta con id:" + accountId + " ha sido eliminada.";
         } else {
             throw  new UserNotExistsException("la cuenta elegida para eliminar, no existe.");
         }
     }
 
     public AccountDTO updateAccount(Long id, AccountDTO dto) {
-        if (repository.existsById(id)){
-            Account accountToModify = repository.findById(id).get();
+        if (accountRepository.existsById(id)){
+            Account accountToModify = accountRepository.findById(id).get();
 
             if (dto.getTypeAccount() != null){
                 accountToModify.setTypeAccount(dto.getTypeAccount());
@@ -75,7 +82,7 @@ public class AccountService {
                 accountToModify.setAmount(dto.getAmount());
             }
 
-            Account accountModified = repository.save(accountToModify);
+            Account accountModified = accountRepository.save(accountToModify);
 
             return AccountMapper.accountToDto(accountModified);
         }
@@ -83,7 +90,6 @@ public class AccountService {
     }
 
 
-    // Metodo para generar el Alias
     public String generarAlias() {
         Random random = new Random();
         String alias;
@@ -110,7 +116,7 @@ public class AccountService {
 
     public boolean aliasExiste(String alias) {
         // Metodo para vericicar si en la BBDD existe una cuenta con ese alias
-        Account usuarioExistente = repository.findByAlias(alias);
+        Account usuarioExistente = accountRepository.findByAlias(alias);
         if(usuarioExistente != null){
             return true;
         } else {
@@ -133,7 +139,7 @@ public class AccountService {
 
     public boolean cbuExiste(String cbu) {
         // Metodo para vericicar si en la BBDD existe una cuenta con ese cbu
-        Account usuarioExistente = repository.findByCbu(cbu);
+        Account usuarioExistente = accountRepository.findByCbu(cbu);
         if(usuarioExistente != null){
             return true;
         } else {
@@ -143,11 +149,11 @@ public class AccountService {
 
     public AccountDTO depositAccount(Long id, AccountDTO dto) {
 
-        Account entity = repository.findById(id).get();
+        Account entity = accountRepository.findById(id).get();
 
         if(dto.getAmount().compareTo(BigDecimal.ZERO)>0) {
             entity.setAmount(entity.getAmount().add(dto.getAmount()));
-            Account account = repository.save(entity);
+            Account account = accountRepository.save(entity);
 
             return AccountMapper.accountToDto(account);
         } else {
@@ -157,12 +163,12 @@ public class AccountService {
 
     public AccountDTO extractAccount(Long id, AccountDTO dto) {
 
-        Account entity = repository.findById(id).get();
+        Account entity = accountRepository.findById(id).get();
 
 
         if(entity.getAmount().subtract(dto.getAmount()).compareTo(BigDecimal.ZERO)>0) {
             entity.setAmount(entity.getAmount().subtract(dto.getAmount()));
-            Account account = repository.save(entity);
+            Account account = accountRepository.save(entity);
 
             return AccountMapper.accountToDto(account);
         } else {
