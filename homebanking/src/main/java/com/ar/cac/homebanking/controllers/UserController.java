@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) throws HomebankingException {
             return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
     }
 }

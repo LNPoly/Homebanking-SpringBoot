@@ -43,12 +43,12 @@ public class UserService {
         User entity = repository.findById(id).get();
         return UserMapper.userToDto(entity);
     }
-    public String deleteUser(Long id){
+    public String deleteUser(Long id) {
         if(repository.existsById(id)) {
             repository.deleteById(id);
             return "Usuario con id:" + id + " ha sido eliminado.";
         } else {
-            throw  new UserNotExistsException("El usuario elegido para eliminar, no existe.");
+           throw  new UserNotExistsException("El usuario elegido para eliminar, no existe.");
         }
 
     }
