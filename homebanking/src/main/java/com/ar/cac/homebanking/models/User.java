@@ -1,5 +1,7 @@
 package com.ar.cac.homebanking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"accountList"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

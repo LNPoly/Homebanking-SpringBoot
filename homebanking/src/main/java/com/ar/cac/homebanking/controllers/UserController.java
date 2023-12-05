@@ -13,10 +13,6 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    // Definir la url de origen para cada solicitud
-    // Para cada método HTTP permitido, debemos realizar una acción
-    //Definir el DTO y el Service(Inyeccion de Dependencia)
-
     @Autowired
     private final UserService service;
 
@@ -49,12 +45,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(service.restorePassword(id,password));
     }
 
-    @PatchMapping(value = "/{id}")
-    public void updateUser(@PathVariable Long id){ }
-
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) throws HomebankingException {
             return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
-
     }
 }
