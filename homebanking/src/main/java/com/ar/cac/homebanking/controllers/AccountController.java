@@ -46,14 +46,14 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteAccount(id));
     }
 
-    @PutMapping("/deposit/{id}")
-    public ResponseEntity<AccountDTO> depositAccount(@PathVariable Long id, @RequestBody AccountDTO dto){
-        return ResponseEntity.status(HttpStatus.OK).body(service.depositAccount(id,dto));
+    @PutMapping("/deposit")
+    public ResponseEntity<AccountDTO> depositAccount(@RequestBody AccountDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).body(service.depositAccount(dto));
     }
 
-    @PutMapping("/extract/{id}")
-    public ResponseEntity<AccountDTO> extractAccount(@PathVariable Long id, @RequestBody AccountDTO dto){
-        return ResponseEntity.status(HttpStatus.OK).body(service.extractAccount(id,dto));
+    @PutMapping("/extract")
+    public ResponseEntity<AccountDTO> extractAccount(@RequestBody AccountDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).body(service.extractAccount(dto));
     }
 
 }
