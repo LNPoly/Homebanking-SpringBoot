@@ -14,18 +14,19 @@ public class AccountMapper {
         dto.setCbu(account.getCbu());
         dto.setAlias(account.getAlias());
         dto.setAmount(account.getAmount());
-//        dto.setUserAccount(account.getUserAccount());
-//        dto.setTransfersList(account.getTransfersList());
+        dto.setUserAccount(UserMapper.userToDto(account.getUserAccount()));
+        dto.setTransfersList(account.getTransfersList());
 
         return dto;
     }
     public static Account dtoToAccount(AccountDTO dto){
         Account account = new Account();
+        account.setAccountId(dto.getAccountId());
         account.setTypeAccount(dto.getTypeAccount());
         account.setCbu(dto.getCbu());
         account.setAlias(dto.getAlias());
         account.setAmount(dto.getAmount());
-        account.setUserAccount(dto.getUserAccount());
+        account.setUserAccount(UserMapper.dtoToUser(dto.getUserAccount()));
         return account;
     }
 

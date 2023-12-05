@@ -43,10 +43,11 @@ public class AccountService {
         dto.setCbu(generarCBU());
         dto.setAlias(generarAlias());
         dto.setAmount(BigDecimal.ZERO);
-        dto.setUserAccount(user);
         dto.setTransfersList(new ArrayList<>());
 
-        Account newAccount = accountRepository.save(AccountMapper.dtoToAccount(dto));
+        Account newAccount = AccountMapper.dtoToAccount(dto);
+        newAccount.setUserAccount(user);
+        newAccount = accountRepository.save(newAccount);
         return AccountMapper.accountToDto(newAccount);
     }
     public AccountDTO getAccountById(Long accountId){

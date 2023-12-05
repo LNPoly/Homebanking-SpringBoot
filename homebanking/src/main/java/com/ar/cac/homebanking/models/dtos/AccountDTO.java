@@ -34,7 +34,7 @@ public class AccountDTO {
 
     //private LocalDate lastModification;
 
-    private User userAccount;
+    private UserDTO userAccount;
 
     private List<Transfer> transfersList;
 
