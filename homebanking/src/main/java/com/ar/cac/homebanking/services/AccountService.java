@@ -106,7 +106,6 @@ public class AccountService {
 
             // Verifico que no exista ese alias en la BBDD
         } while (aliasExiste(alias));
-
         return alias;
     }
 
@@ -154,6 +153,7 @@ public class AccountService {
 
         if(dto.getAmount().compareTo(BigDecimal.ZERO)>0) {
             entity.setAmount(entity.getAmount().add(dto.getAmount()));
+
             Account account = accountRepository.save(entity);
 
             return AccountMapper.accountToDto(account);

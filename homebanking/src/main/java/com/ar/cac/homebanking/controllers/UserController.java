@@ -49,4 +49,5 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
             return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
     }
+
 }
