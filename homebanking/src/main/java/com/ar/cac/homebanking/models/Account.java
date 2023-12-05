@@ -1,6 +1,8 @@
 package com.ar.cac.homebanking.models;
 
 import com.ar.cac.homebanking.models.enums.AccountType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"userAccount"})
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +38,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name="id_Usuario", referencedColumnName="id")
+    @JsonManagedReference
     private User userAccount;
 
     @OneToMany(mappedBy = "originAccount")
