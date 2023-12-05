@@ -106,7 +106,6 @@ public class AccountService {
 
             // Verifico que no exista ese alias en la BBDD
         } while (aliasExiste(alias));
-
         return alias;
     }
 
@@ -148,12 +147,13 @@ public class AccountService {
         }
     }
 
-    public AccountDTO depositAccount(Long id, AccountDTO dto) {
+    public AccountDTO depositAccount(AccountDTO dto) {
 
-        Account entity = accountRepository.findById(id).get();
+        Account entity = accountRepository.findById(dto.getAccountId()).get();
 
         if(dto.getAmount().compareTo(BigDecimal.ZERO)>0) {
             entity.setAmount(entity.getAmount().add(dto.getAmount()));
+
             Account account = accountRepository.save(entity);
 
             return AccountMapper.accountToDto(account);
@@ -162,9 +162,9 @@ public class AccountService {
         }
     }
 
-    public AccountDTO extractAccount(Long id, AccountDTO dto) {
+    public AccountDTO extractAccount(AccountDTO dto) {
 
-        Account entity = accountRepository.findById(id).get();
+        Account entity = accountRepository.findById(dto.getAccountId()).get();
 
 
         if(entity.getAmount().subtract(dto.getAmount()).compareTo(BigDecimal.ZERO)>0) {
