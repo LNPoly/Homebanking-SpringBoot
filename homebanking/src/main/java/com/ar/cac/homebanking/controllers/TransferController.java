@@ -30,7 +30,6 @@ public class TransferController {
         return ResponseEntity.status(HttpStatus.OK).body(transfer);
     }
 
-
     @PostMapping
     public ResponseEntity<TransferDTO> performTransfer(@RequestBody TransferDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.performTransfer(dto));

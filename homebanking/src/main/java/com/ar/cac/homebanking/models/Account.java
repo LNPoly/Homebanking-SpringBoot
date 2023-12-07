@@ -41,10 +41,8 @@ public class Account {
     @JsonManagedReference
     private User userAccount;
 
-    @OneToMany(mappedBy = "originAccount")
+    @OneToMany
     private List<Transfer> transfersList;
 
-    //@OneToMany(mappedBy = "Account", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Transfer> listTransfers;
 
 }
