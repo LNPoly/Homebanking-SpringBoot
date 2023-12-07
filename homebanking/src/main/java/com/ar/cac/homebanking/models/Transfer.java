@@ -24,13 +24,11 @@ public class Transfer {
     @Column(name = "amount")
     private BigDecimal transferAmount;
 
-    @ManyToOne
-    @JoinColumn(name="accountOriginId", referencedColumnName="accountId")
-    private Account originAccount;
+    @Column(name = "originAccount")
+    private Long originAccount;
 
-    @ManyToOne
-    @JoinColumn(name="accountTargetId", referencedColumnName = "accountId")
-    private Account targetAccount;
+    @Column(name = "targetAccount")
+    private Long targetAccount;
 
     @Column(name = "date")
     private LocalDate date;

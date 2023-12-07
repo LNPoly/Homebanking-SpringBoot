@@ -61,9 +61,9 @@ public class TransferService {
     @Transactional
     public TransferDTO performTransfer(TransferDTO dto) {
         // Comprobar si las cuentas de origen y destino existen
-        Account originAccount = accountRepository.findById(dto.getOriginAccount().getAccountId())
+        Account originAccount = accountRepository.findById(dto.getOriginAccount())
                 .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getOriginAccount()));
-        Account destinationAccount = accountRepository.findById(dto.getTargetAccount().getAccountId())
+        Account destinationAccount = accountRepository.findById(dto.getTargetAccount())
                 .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + dto.getTargetAccount()));
 
         // Comprobar si la cuenta de origen tiene fondos suficientes
@@ -75,9 +75,6 @@ public class TransferService {
         originAccount.setAmount(originAccount.getAmount().subtract(dto.getTransferAmount()));
         destinationAccount.setAmount(destinationAccount.getAmount().add(dto.getTransferAmount()));
 
-        // Guardar las cuentas actualizadas
-        accountRepository.save(originAccount);
-        accountRepository.save(destinationAccount);
 
         // Crear la transferencia y guardarla en la base de datos
         Transfer transfer = new Transfer();
@@ -85,10 +82,27 @@ public class TransferService {
         LocalDate date = LocalDate.now();
         // Seteamos el objeto fecha actual en el transferDto
         transfer.setDate(date);
-        transfer.setOriginAccount(originAccount);
-        transfer.setTargetAccount(destinationAccount);
+        transfer.setOriginAccount(originAccount.getAccountId());
+        transfer.setTargetAccount(destinationAccount.getAccountId());
         transfer.setTransferAmount(dto.getTransferAmount());
-        transfer = repository.save(transfer);
+
+
+//        List<Transfer> listaOrigin = originAccount.getTransfersList();
+//        listaOrigin.add(transfer);
+//
+//        originAccount.setTransfersList(listaOrigin);
+//
+//        List<Transfer> listaDestination = destinationAccount.getTransfersList();
+//        listaDestination.add(transfer);
+//        destinationAccount.setTransfersList(listaDestination);
+
+        repository.save(transfer);
+
+        // Guardar las cuentas actualizadas
+        accountRepository.save(originAccount);
+        accountRepository.save(destinationAccount);
+
+
 
         // Devolver el DTO de la transferencia realizada
         return TransferMapper.transferToDto(transfer);
