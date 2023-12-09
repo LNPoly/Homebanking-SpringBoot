@@ -30,7 +30,7 @@ public class UserDTO {
     @NotNull(message = "Debe propocionar un nombre")
     private String name;
 
-    @NotNull(message = "Debd proporcionar el apellido")
+    @NotNull(message = "Debe proporcionar el apellido")
     private String surname;
 
     @NotNull(message = "La cuenta de usuario debe tener un DNI asociado")
