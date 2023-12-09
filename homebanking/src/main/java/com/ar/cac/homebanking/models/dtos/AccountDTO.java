@@ -37,6 +37,4 @@ public class AccountDTO {
 
     private UserDTO userAccount;
 
-    private List<Transfer> transfersList;
-
 }
