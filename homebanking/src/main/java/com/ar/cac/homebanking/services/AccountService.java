@@ -39,7 +39,7 @@ public class AccountService {
 
         User user = userRepository.findById(dto.getUserAccount().getId()).orElse(null);
 
-        dto.setTypeAccount(dto.getTypeAccount());
+        dto.setTypeAccount(createTypeAccount());
         dto.setCbu(generarCBU());
         dto.setAlias(generarAlias());
         dto.setAmount(BigDecimal.ZERO);
@@ -91,6 +91,10 @@ public class AccountService {
         return null;
     }
 
+    public AccountType createTypeAccount(){
+        //Obtiene el indice del tipo de cuenta en forma aleatoria a partir del Enum AccountType.
+        return AccountType.values()[new Random().nextInt(AccountType.values().length)];
+    }
 
     public String generarAlias() {
         Random random = new Random();
