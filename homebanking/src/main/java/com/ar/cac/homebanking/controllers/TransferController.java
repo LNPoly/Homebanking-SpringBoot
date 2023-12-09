@@ -30,6 +30,18 @@ public class TransferController {
         return ResponseEntity.status(HttpStatus.OK).body(transfer);
     }
 
+    @GetMapping(value = "executed/{originAccount}")
+    public ResponseEntity<List<TransferDTO>> getTransfersExecutedByAccount(@PathVariable Long originAccount){
+        List<TransferDTO> transfers = service.getTransfersExecutedByAccount(originAccount);
+        return ResponseEntity.status(HttpStatus.OK).body(transfers);
+    }
+
+    @GetMapping(value = "taken/{targetAccount}")
+    public ResponseEntity<List<TransferDTO>> getTransfersTakenByAccount(@PathVariable Long targetAccount){
+        List<TransferDTO> transfers = service.getTransfersTakenByAccount(targetAccount);
+        return ResponseEntity.status(HttpStatus.OK).body(transfers);
+    }
+
     @PostMapping
     public ResponseEntity<TransferDTO> performTransfer(@RequestBody TransferDTO dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.performTransfer(dto));

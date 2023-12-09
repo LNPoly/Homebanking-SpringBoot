@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +39,20 @@ public class TransferService {
         Transfer transfer = repository.findById(id).orElseThrow(() ->
                 new TransferNotFoundException("Transfer not found with id: " + id));
         return TransferMapper.transferToDto(transfer);
+    }
+
+    public List<TransferDTO> getTransfersExecutedByAccount(Long originAccount){
+        List<Transfer> transfers = repository.findByOriginAccount(originAccount);
+        return transfers.stream()
+                .map(TransferMapper::transferToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TransferDTO> getTransfersTakenByAccount(Long targetAccount){
+        List<Transfer> transfers = repository.findByTargetAccount(targetAccount);
+        return transfers.stream()
+                .map(TransferMapper::transferToDto)
+                .collect(Collectors.toList());
     }
 
     public TransferDTO updateTransfer(Long id, TransferDTO transferDto){
@@ -75,6 +88,9 @@ public class TransferService {
         originAccount.setAmount(originAccount.getAmount().subtract(dto.getTransferAmount()));
         destinationAccount.setAmount(destinationAccount.getAmount().add(dto.getTransferAmount()));
 
+        // Guardar las cuentas actualizadas
+        accountRepository.save(originAccount);
+        accountRepository.save(destinationAccount);
 
         // Crear la transferencia y guardarla en la base de datos
         Transfer transfer = new Transfer();
@@ -85,24 +101,7 @@ public class TransferService {
         transfer.setOriginAccount(originAccount.getAccountId());
         transfer.setTargetAccount(destinationAccount.getAccountId());
         transfer.setTransferAmount(dto.getTransferAmount());
-
-
-//        List<Transfer> listaOrigin = originAccount.getTransfersList();
-//        listaOrigin.add(transfer);
-//
-//        originAccount.setTransfersList(listaOrigin);
-//
-//        List<Transfer> listaDestination = destinationAccount.getTransfersList();
-//        listaDestination.add(transfer);
-//        destinationAccount.setTransfersList(listaDestination);
-
-        repository.save(transfer);
-
-        // Guardar las cuentas actualizadas
-        accountRepository.save(originAccount);
-        accountRepository.save(destinationAccount);
-
-
+        transfer = repository.save(transfer);
 
         // Devolver el DTO de la transferencia realizada
         return TransferMapper.transferToDto(transfer);
