@@ -2,12 +2,16 @@ package com.ar.cac.homebanking.controllers;
 
 import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -32,7 +36,19 @@ public class UserController {
 
     }
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user, BindingResult result){
+        if (result.hasErrors()) {
+            // Construir un mensaje de error personalizado
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(fieldError -> {
+                String fieldName = fieldError.getField();
+                String errorMessage = fieldError.getDefaultMessage();
+                errors.put(fieldName, errorMessage);
+            });
+
+            // Devolver una respuesta de error con el mensaje personalizado
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(user));
     }
     @PutMapping(value="/{id}")
