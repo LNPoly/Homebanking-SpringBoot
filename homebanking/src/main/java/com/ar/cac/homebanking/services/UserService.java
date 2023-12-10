@@ -70,10 +70,6 @@ public class UserService {
                 userToModify.setEmail(dto.getEmail());
             }
 
-            if (dto.getPassword() != null){
-                userToModify.setPassword(dto.getPassword());
-            }
-
             if (dto.getDni() != null){
                 userToModify.setDni(dto.getDni());
             }

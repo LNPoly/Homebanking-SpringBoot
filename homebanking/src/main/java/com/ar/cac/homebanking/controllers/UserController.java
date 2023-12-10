@@ -37,6 +37,25 @@ public class UserController {
     }
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user, BindingResult result){
+        return validationResult(result, service.createUser(user));
+    }
+    @PutMapping(value="/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO user, BindingResult result){
+//        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
+        return validationResult(result, service.updateUser(id, user));
+    }
+
+    @PutMapping(value = "/restore/{id}")
+    public ResponseEntity<UserDTO> restorePassword (@PathVariable Long id, @RequestBody String password){
+        return ResponseEntity.status(HttpStatus.OK).body(service.restorePassword(id,password));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id)  {
+            return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
+    }
+
+    private ResponseEntity<?> validationResult(BindingResult result, UserDTO responseEntity) {
         if (result.hasErrors()) {
             // Construir un mensaje de error personalizado
             Map<String, String> errors = new HashMap<>();
@@ -49,21 +68,7 @@ public class UserController {
             // Devolver una respuesta de error con el mensaje personalizado
             return ResponseEntity.badRequest().body(errors);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(user));
-    }
-    @PutMapping(value="/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO user){
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
-    }
-
-    @PutMapping(value = "/restore/{id}")
-    public ResponseEntity<UserDTO> restorePassword (@PathVariable Long id, @RequestBody String password){
-        return ResponseEntity.status(HttpStatus.OK).body(service.restorePassword(id,password));
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id)  {
-            return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
+        return ResponseEntity.status(HttpStatus.OK).body(responseEntity);
     }
 
 }
