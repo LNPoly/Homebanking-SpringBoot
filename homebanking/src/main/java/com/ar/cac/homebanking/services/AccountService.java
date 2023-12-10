@@ -46,7 +46,6 @@ public class AccountService {
 
         Account newAccount = AccountMapper.dtoToAccount(dto);
         newAccount.setUserAccount(user);
-        newAccount.setTransfersList(new ArrayList<>());
 
         newAccount = accountRepository.save(newAccount);
         return AccountMapper.accountToDto(newAccount);

@@ -1,19 +1,12 @@
 package com.ar.cac.homebanking.models.dtos;
 
-import com.ar.cac.homebanking.models.Account;
-import com.ar.cac.homebanking.models.Transfer;
-import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.enums.AccountType;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -31,12 +24,6 @@ public class AccountDTO {
 
     private BigDecimal amount;
 
-    //private LocalDate creationDate;
-
-    //private LocalDate lastModification;
-
     private UserDTO userAccount;
-
-    private List<Transfer> transfersList;
 
 }

@@ -15,7 +15,6 @@ public class AccountMapper {
         dto.setAlias(account.getAlias());
         dto.setAmount(account.getAmount());
         dto.setUserAccount(UserMapper.userToDto(account.getUserAccount()));
-        dto.setTransfersList(account.getTransfersList());
 
         return dto;
     }

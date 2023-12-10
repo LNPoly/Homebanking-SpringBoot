@@ -41,8 +41,5 @@ public class Account {
     @JsonManagedReference
     private User userAccount;
 
-    @OneToMany
-    private List<Transfer> transfersList;
-
 
 }
