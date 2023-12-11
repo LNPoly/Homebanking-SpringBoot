@@ -38,6 +38,7 @@ public class User {
     private String bornDate;
 
     @Column(name = "dni", unique = true)
+
     private String dni;
 
     @Column(name = "address")
