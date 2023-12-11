@@ -47,7 +47,7 @@ public class UserDTO {
 
     @NotNull(message = "Debe proporcionar una fecha de nacimiento válida")
     @NotBlank(message = "Debe proporcionar una fecha de nacimiento válida")
-    @Pattern(regexp = "[0-31]{2}[-.][0-12]{2}[-.][0-9]{4}", message = "La fecha de nacimiento no es correcta o debe tener formato dia-mes-año")
+    @Pattern(regexp = "[0-9]{2}[-.][0-9]{2}[-.][0-9]{4}", message = "La fecha de nacimiento no es correcta o debe tener formato dia-mes-año")
     private String bornDate;
 
     @NotNull(message = "Debe proporcionar un domicilio")

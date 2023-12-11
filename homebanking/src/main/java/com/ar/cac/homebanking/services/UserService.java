@@ -5,9 +5,11 @@ import com.ar.cac.homebanking.mappers.UserMapper;
 import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.repositories.UserRepository;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.PasswordAuthentication;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,8 +93,8 @@ public class UserService {
 
         User entity = repository.findById(id).get();
 
-        // String contraBBDD =  entity.getPassword();
-        // System.out.println("Contrasena de la BBDD: " + contraBBDD);
+        //String contraBBDD =  entity.getPassword();
+        //System.out.println("Contrasena de la BBDD: " + contraBBDD);
 
         PasswordService passwordService = new PasswordService();
 
@@ -100,17 +102,34 @@ public class UserService {
         entity.setPassword(contrasenaEncriptada);
 
         User userModified = repository.save(entity);
+        String contraModificada = userModified.getPassword();
         /*
+        if (contraBBDD.equals(contraModificada)){
+            User newPass = repository.save(entity);
+            String changePass = newPass.getPassword();
 
-         String contraModificada =userModified.getPassword();
-         System.out.println("Contrasena modificada: " + contraModificada);
+            System.out.println("La contraseña es igual a la anterior. Escriba una nueva contraseña.");
+            try {
+                new PasswordAuthentication(entity.getName(), password.toCharArray());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return UserMapper.userToDto(newPass);
+        } else {
+            System.out.println("contraseña cambiada");
+            return UserMapper.userToDto(userModified);
+        }
+
+        String contraModificada =userModified.getPassword();
+        System.out.println("Contrasena modificada: " + contraModificada);
 
         if(contraBBDD.equals(contraModificada)){
             System.out.println("Son iguales");
         } else {
             System.out.println("No son iguales");
         } */
-        return UserMapper.userToDto(userModified);
 
+        return UserMapper.userToDto(userModified);
     }
 }
+
