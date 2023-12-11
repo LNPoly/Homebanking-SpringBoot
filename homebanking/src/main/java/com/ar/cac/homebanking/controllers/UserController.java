@@ -2,11 +2,13 @@ package com.ar.cac.homebanking.controllers;
 
 import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.services.UserService;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
+@Validated
 public class UserController {
 
     @Autowired
@@ -36,15 +39,14 @@ public class UserController {
 
     }
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user, BindingResult result){
-        return validationResult(result, service.createUser(user));
-    }
-    @PutMapping(value="/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO user, BindingResult result){
-//        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
-        return validationResult(result, service.updateUser(id, user));
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user, BindingResult result) throws ConstraintViolationException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(user));
     }
 
+    @PutMapping(value="/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO user, BindingResult result){
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
+    }
     @PutMapping(value = "/restore/{id}")
     public ResponseEntity<UserDTO> restorePassword (@PathVariable Long id, @RequestBody String password){
         return ResponseEntity.status(HttpStatus.OK).body(service.restorePassword(id,password));
@@ -55,20 +57,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
     }
 
-    private ResponseEntity<?> validationResult(BindingResult result, UserDTO responseEntity) {
-        if (result.hasErrors()) {
-            // Construir un mensaje de error personalizado
-            Map<String, String> errors = new HashMap<>();
-            result.getFieldErrors().forEach(fieldError -> {
-                String fieldName = fieldError.getField();
-                String errorMessage = fieldError.getDefaultMessage();
-                errors.put(fieldName, errorMessage);
-            });
 
-            // Devolver una respuesta de error con el mensaje personalizado
-            return ResponseEntity.badRequest().body(errors);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(responseEntity);
-    }
 
 }
