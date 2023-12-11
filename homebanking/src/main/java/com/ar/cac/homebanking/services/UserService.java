@@ -73,6 +73,12 @@ public class UserService {
             if (dto.getDni() != null){
                 userToModify.setDni(dto.getDni());
             }
+            if (dto.getAddress() != null){
+                userToModify.setAddress(dto.getAddress());
+            }
+            if (dto.getBornDate() != null){
+                userToModify.setBornDate(dto.getBornDate());
+            }
 
             User userModified = repository.save(userToModify);
 
