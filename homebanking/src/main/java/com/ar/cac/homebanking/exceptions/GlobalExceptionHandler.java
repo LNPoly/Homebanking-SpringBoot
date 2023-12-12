@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
             errors.put(violation.getPropertyPath().toString(), violation.getMessage());
         });
         //Mensaje de error
-        errors.put("message", "Error en la validación de los campos");
+        errors.put("message", "Field validation error.");
 
         return ResponseEntity.badRequest().body(errors);
     }

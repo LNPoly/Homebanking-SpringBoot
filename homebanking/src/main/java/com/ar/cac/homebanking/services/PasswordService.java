@@ -12,11 +12,11 @@ public class PasswordService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public String encriptarPassword(String password) {
+    public String encryptPassword(String password) {
         return passwordEncoder.encode(password);
     }
 
-    public boolean verificarPassword(String passwordIngresada, String passwordEncriptada) {
-        return passwordEncoder.matches(passwordIngresada, passwordEncriptada);
+    public boolean verifyPassword(String passwordEntered, String encryptedPassword) {
+        return passwordEncoder.matches(passwordEntered, encryptedPassword);
     }
 }

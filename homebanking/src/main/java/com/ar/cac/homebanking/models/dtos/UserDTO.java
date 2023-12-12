@@ -23,35 +23,35 @@ public class UserDTO {
 
     private Long id;
 
-    @Email(message = "El correo electronico debe tener un formato correcto")
+    @Email(message = "The email must be correctly formatted.")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull(message = "Debe proporcionar una contraseña")
-    @NotBlank(message = "Debe proporcionar una contraseña")
+    @NotNull(message = "You must enter a password.")
+    @NotBlank(message = "You must enter a password.")
     @Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%&*?])[a-zA-Z\\d!@#$%&*?]{8,20}$",
-            message = "La contraseña debe tener 8 a 20 caracteres con al menos una letra minúscula, una letra mayúscula y un caracter especial")
+            message = "Password must have within 8-20 characters and at least a lowercase letter, an uppercase letter, a number and a special character.")
     private String password;
 
-    @NotNull(message = "Debe propocionar un nombre")
-    @NotBlank(message = "Debe propocionar un nombre")
+    @NotNull(message = "You must enter your name.")
+    @NotBlank(message = "You must enter your name.")
     private String name;
 
-    @NotNull(message = "Debe proporcionar el apellido")
-    @NotBlank(message = "Debe proporcionar el apellido")
+    @NotNull(message = "You must enter your surname.")
+    @NotBlank(message = "You must enter your surname.")
     private String surname;
 
-    @NotNull(message = "La cuenta de usuario debe tener un DNI asociado")
-    @NotBlank(message = "La cuenta de usuario debe tener un DNI asociado")
+    @NotNull(message = "The user account must have an associated DNI.")
+    @NotBlank(message = "The user account must have an associated DNI.")
     private String dni;
 
-    @NotNull(message = "Debe proporcionar una fecha de nacimiento válida")
-    @NotBlank(message = "Debe proporcionar una fecha de nacimiento válida")
-    @Pattern(regexp = "[0-9]{2}[-.][0-9]{2}[-.][0-9]{4}", message = "La fecha de nacimiento no es correcta o debe tener formato dia-mes-año")
+    @NotNull(message = "You must enter a valid date of birth.")
+    @NotBlank(message = "You must enter a valid date of birth.")
+    @Pattern(regexp = "[0-9]{2}[-.][0-9]{2}[-.][0-9]{4}", message = "The date of birth in not correct or must be in DD-MM-YY format.")
     private String bornDate;
 
-    @NotNull(message = "Debe proporcionar un domicilio")
-    @NotBlank(message = "Debe proporcionar un domicilio")
+    @NotNull(message = "You must enter an address.")
+    @NotBlank(message = "You must enter an address.")
     private String address;
 
     private List<Account> accountList;

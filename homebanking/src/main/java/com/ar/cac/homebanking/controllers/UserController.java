@@ -11,9 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -56,7 +54,5 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable Long id)  {
             return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
     }
-
-
 
 }

@@ -65,9 +65,9 @@ public class TransferService {
     public String deleteTransfer(Long id){
         if (repository.existsById(id)){
             repository.deleteById(id);
-            return "Se ha eliminado la transferencia";
+            return "Transfer has been deleted.";
         } else {
-            return "No se ha eliminado la transferencia";
+            return "Transfer wasn't deleted.";
         }
     }
 
@@ -81,7 +81,7 @@ public class TransferService {
 
         // Comprobar si la cuenta de origen tiene fondos suficientes
         if (originAccount.getAmount().compareTo(dto.getTransferAmount()) < 0) {
-            throw new InsufficientFoundsException("Insufficient funds in the account with id: " + dto.getOriginAccount());
+            throw new InsufficientFoundsException("Insufficient funds in account with id: " + dto.getOriginAccount());
         }
 
         // Realizar la transferencia
