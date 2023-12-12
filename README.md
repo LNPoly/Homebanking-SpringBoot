@@ -22,5 +22,6 @@ Consignas extras realizadas:
 
 Otros:
 
--Asignación automática de CBU y alias.
--Nuevos endpoints para consultas de transferencias emitidas y recibidas por cuenta.
+- Asignación automática de CBU y alias.
+  
+- Nuevos endpoints para consultas de transferencias emitidas y recibidas por cuenta.
