@@ -3,20 +3,17 @@ package com.ar.cac.homebanking.services;
 import com.ar.cac.homebanking.exceptions.AccountNotFoundException;
 import com.ar.cac.homebanking.exceptions.UserNotExistsException;
 import com.ar.cac.homebanking.mappers.AccountMapper;
-import com.ar.cac.homebanking.mappers.UserMapper;
 import com.ar.cac.homebanking.models.Account;
 import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.dtos.AccountDTO;
-import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.models.enums.AccountType;
-import com.ar.cac.homebanking.models.enums.Palabras;
+import com.ar.cac.homebanking.models.enums.WordsForAlias;
 import com.ar.cac.homebanking.repositories.AccountRepository;
 import com.ar.cac.homebanking.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -40,8 +37,8 @@ public class AccountService {
         User user = userRepository.findById(dto.getUserAccount().getId()).orElse(null);
 
         dto.setTypeAccount(createTypeAccount());
-        dto.setCbu(generarCBU());
-        dto.setAlias(generarAlias());
+        dto.setCbu(generateCBU());
+        dto.setAlias(generateAlias());
         dto.setAmount(BigDecimal.ZERO);
 
         Account newAccount = AccountMapper.dtoToAccount(dto);
@@ -57,9 +54,9 @@ public class AccountService {
     public String deleteAccount(Long accountId){
         if(accountRepository.existsById(accountId)) {
             accountRepository.deleteById(accountId);
-            return "Cuenta con id:" + accountId + " ha sido eliminada.";
+            return "Account with id:" + accountId + " has been deleted.";
         } else {
-            throw  new UserNotExistsException("la cuenta elegida para eliminar, no existe.");
+            throw  new UserNotExistsException("The account chosen to delete doesn't exists.");
         }
     }
 
@@ -95,40 +92,40 @@ public class AccountService {
         return AccountType.values()[new Random().nextInt(AccountType.values().length)];
     }
 
-    public String generarAlias() {
+    public String generateAlias() {
         Random random = new Random();
         String alias;
 
         do {
             // Obtengo 3 palabras aleatorias del Enum "Palabra"
-            Palabras palabra1 = obtenerPalabraAleatoria();
-            Palabras palabra2 = obtenerPalabraAleatoria();
-            Palabras palabra3 = obtenerPalabraAleatoria();
+            WordsForAlias word1 = getRandomWord();
+            WordsForAlias word2 = getRandomWord();
+            WordsForAlias word3 = getRandomWord();
 
             // Concateno las 3 palabras con puntos para formar el alias
-            alias = palabra1.name().toLowerCase() + "." + palabra2.name().toLowerCase() + "." + palabra3.name().toLowerCase();
+            alias = word1.name().toLowerCase() + "." + word2.name().toLowerCase() + "." + word3.name().toLowerCase();
 
             // Verifico que no exista ese alias en la BBDD
-        } while (aliasExiste(alias));
+        } while (aliasExists(alias));
         return alias;
     }
 
-    private Palabras obtenerPalabraAleatoria() {
+    private WordsForAlias getRandomWord() {
         // Obtiene desde el Enum una palabra aleatoria entre 0 y el tamaño del enum (Palabras.values().length)
-        return Palabras.values()[new Random().nextInt(Palabras.values().length)];
+        return WordsForAlias.values()[new Random().nextInt(WordsForAlias.values().length)];
     }
 
-    public boolean aliasExiste(String alias) {
+    public boolean aliasExists(String alias) {
         // Metodo para vericicar si en la BBDD existe una cuenta con ese alias
-        Account usuarioExistente = accountRepository.findByAlias(alias);
-        if(usuarioExistente != null){
+        Account userExists = accountRepository.findByAlias(alias);
+        if(userExists != null){
             return true;
         } else {
             return false;
         }
     }
 
-    public  String generarCBU() {
+    public  String generateCBU() {
         Random random = new Random();
         String cbu;
         do {
@@ -137,14 +134,14 @@ public class AccountService {
             for (int i = 0; i < 19; i++) {
                 cbu += random.nextInt(10);
             }
-        } while (cbuExiste(cbu));
+        } while (cbuExists(cbu));
         return cbu;
     }
 
-    public boolean cbuExiste(String cbu) {
+    public boolean cbuExists(String cbu) {
         // Metodo para vericicar si en la BBDD existe una cuenta con ese cbu
-        Account usuarioExistente = accountRepository.findByCbu(cbu);
-        if(usuarioExistente != null){
+        Account userExists = accountRepository.findByCbu(cbu);
+        if(userExists != null){
             return true;
         } else {
             return false;
@@ -162,7 +159,7 @@ public class AccountService {
 
             return AccountMapper.accountToDto(account);
         } else {
-            throw  new AccountNotFoundException("Amount to be deposited invalid.");
+            throw  new AccountNotFoundException("The amount to be deposited is invalid.");
         }
     }
 
@@ -177,7 +174,7 @@ public class AccountService {
 
             return AccountMapper.accountToDto(account);
         } else {
-                throw  new AccountNotFoundException("Amount to be drawn insufficient");
+                throw  new AccountNotFoundException("Insufficient funds.");
         }
     }
 }

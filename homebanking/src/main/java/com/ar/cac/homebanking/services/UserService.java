@@ -5,11 +5,9 @@ import com.ar.cac.homebanking.mappers.UserMapper;
 import com.ar.cac.homebanking.models.User;
 import com.ar.cac.homebanking.models.dtos.UserDTO;
 import com.ar.cac.homebanking.repositories.UserRepository;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.PasswordAuthentication;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,8 +32,8 @@ public class UserService {
     public UserDTO createUser(UserDTO userDTO){
         PasswordService passwordService = new PasswordService();
 
-        String contrasenaEncriptada = passwordService.encriptarPassword(userDTO.getPassword());
-        userDTO.setPassword(contrasenaEncriptada);
+        String encryptedPassword = passwordService.encryptPassword(userDTO.getPassword());
+        userDTO.setPassword(encryptedPassword);
 
         User user = repository.save(UserMapper.dtoToUser(userDTO));
         return UserMapper.userToDto(user);
@@ -48,9 +46,9 @@ public class UserService {
     public String deleteUser(Long id) {
         if(repository.existsById(id)) {
             repository.deleteById(id);
-            return "Usuario con id:" + id + " ha sido eliminado.";
+            return "User with id:" + id + " has been deleted.";
         } else {
-           throw  new UserNotExistsException("El usuario elegido para eliminar, no existe.");
+           throw  new UserNotExistsException("The user doesn't exists.");
         }
 
     }
@@ -93,22 +91,22 @@ public class UserService {
 
         User entity = repository.findById(id).get();
 
-        //String contraBBDD =  entity.getPassword();
-        //System.out.println("Contrasena de la BBDD: " + contraBBDD);
+        //String passwordBBDD =  entity.getPassword();
+        //System.out.println("Hosted password: " + passwordBBDD);
 
         PasswordService passwordService = new PasswordService();
 
-        String contrasenaEncriptada = passwordService.encriptarPassword(password);
-        entity.setPassword(contrasenaEncriptada);
+        String encryptedPassword = passwordService.encryptPassword(password);
+        entity.setPassword(encryptedPassword);
 
         User userModified = repository.save(entity);
-        String contraModificada = userModified.getPassword();
+        String modifiedPassword = userModified.getPassword();
         /*
-        if (contraBBDD.equals(contraModificada)){
-            User newPass = repository.save(entity);
-            String changePass = newPass.getPassword();
+        if (passwordBBDD.equals(modifiedPassword)){
+            User newPassword = repository.save(entity);
+            String changePass = newPassword.getPassword();
 
-            System.out.println("La contraseña es igual a la anterior. Escriba una nueva contraseña.");
+            System.out.println("Password is the same as the previous one. Type a new password.");
             try {
                 new PasswordAuthentication(entity.getName(), password.toCharArray());
             } catch (Exception e) {
@@ -116,17 +114,17 @@ public class UserService {
             }
             return UserMapper.userToDto(newPass);
         } else {
-            System.out.println("contraseña cambiada");
+            System.out.println("Password has been modified.");
             return UserMapper.userToDto(userModified);
         }
 
-        String contraModificada =userModified.getPassword();
-        System.out.println("Contrasena modificada: " + contraModificada);
+        String modifiedPassword = userModified.getPassword();
+        System.out.println("New password: " + modifiedPassword);
 
-        if(contraBBDD.equals(contraModificada)){
-            System.out.println("Son iguales");
+        if(passwordBBDD.equals(modifiedPassword)){
+            System.out.println("Are the same");
         } else {
-            System.out.println("No son iguales");
+            System.out.println("Are different");
         } */
 
         return UserMapper.userToDto(userModified);

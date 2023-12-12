@@ -1,6 +1,6 @@
 package com.ar.cac.homebanking.models.enums;
 
-public enum Palabras {
+public enum WordsForAlias {
     GATO, PERRO, OSO, LEÓN, TIGRE, ELEFANTE, JIRAFA, RINOCERONTE, TORTUGA, CANGURO,
     HORMIGA, MARIPOSA, CEBRA, COCODRILO, PINGÜINO, DELFÍN, RANA, MURCIÉLAGO, CIERVO,
     ESCORPIÓN, HURÓN, IGUANA, JAGUAR, KOALA, LÉMUR, NUTRIA, ORANGUTÁN, PANDA, QUOKKA,
