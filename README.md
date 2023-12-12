@@ -12,7 +12,7 @@ CONSIGNA PRINCIPAL A REALIZAR
 
   -----------------------------------
 
-- Consignas extras realizadas
+Consignas extras realizadas:
 
 - Validaciones Avanzadas:
 	Realizar validaciones avanzadas en la entrada de datos para asegurar la integridad y consistencia de la información.
@@ -20,5 +20,7 @@ CONSIGNA PRINCIPAL A REALIZAR
 - Función “Cajero Express”:
 	Añadir la funcionalidad de depositar y extraer dinero a la cuenta desde un endpoint nuevo. (Se debe acceder por usuario).
 
-- Login & Register:
-  Implementar Registro y Login de Usuario en la app web. (Pueden usar librerías externas o validar datos manualmente). Añadir los endpoints necesarios.
+Otros:
+
+-Asignación automática de CBU y alias.
+-Nuevos endpoints para consultas de transferencias emitidas y recibidas por cuenta.
