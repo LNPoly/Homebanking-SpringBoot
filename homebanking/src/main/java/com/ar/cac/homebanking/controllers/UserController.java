@@ -45,7 +45,7 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO user, BindingResult result){
         return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id, user));
     }
-    @PutMapping(value = "/restore/{id}")
+    @PutMapping(value = "/restorePassword/{id}")
     public ResponseEntity<UserDTO> restorePassword (@PathVariable Long id, @RequestBody String password){
         return ResponseEntity.status(HttpStatus.OK).body(service.restorePassword(id,password));
     }
